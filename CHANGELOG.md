@@ -13,7 +13,6 @@ features on *iOS* and *Android*:
 | Cloud Firestore                    | FirebaseFirestore.unitypackage    |
 | Firebase Functions                 | FirebaseFunctions.unitypackage    |
 | Firebase Installations             | FirebaseInstallations.unitypackage|
-| Firebase Instance ID               | FirebaseInstanceId.unitypackage   |
 | Firebase Messaging                 | FirebaseMessaging.unitypackage    |
 | Firebase Realtime Database         | FirebaseDatabase.unitypackage     |
 | Firebase Remote Config             | FirebaseRemoteConfig.unitypackage |
@@ -99,14 +98,6 @@ If you import another Firebase plugin:
   `Assets > Play Services Resolver > Version Handler > Update`
   to enable the correct DLLs for your project.
 
-### Unity 2017.2 Networking
-
-Realtime Database creates TLS network connections using the .NET networking
-stack.  TLS functionality is broken in Unity 2017.2 when using .NET 4.6 causing
-the Realtime Database plugin to fail in editor and on desktop.  There is no
-workaround for this issue, you have to use a different version of Unity, for
-example 2017.1 or 2017.3.
-
 
 ### Unity 4 workarounds
 
@@ -164,11 +155,289 @@ Support
 
 Release Notes
 -------------
-### 7.0.1:
+### 9.6.0
+- Changes
+    - General: Updated Firebase C++ SDK dependencies to v9.6.0.
+    - General (Android): Update Firebase Android BoM dependencies to v30.5.0.
+    - General (iOS): Update Firebase Cocoapods dependencies to v9.6.0.
+
+### 9.5.0
+- Changes
+    - General: Updated Firebase C++ SDK dependencies to v9.5.0.
+    - Crashlytics: Fix #218 that Firebase editor tool not loading when iOS
+      build support is not installed.
+
+### 9.4.0
+- Changes
+    - General: Updated Firebase C++ SDK dependencies to v9.4.0.
+
+### 9.3.0
+- Changes
+    - General (Android, Linux): Fixed a concurrency bug where waiting for an
+      event with a timeout could occasionally return prematurely, as if the
+      timeout had occurred
+      ([#1021](https://github.com/firebase/firebase-cpp-sdk/pull/1021)).
+
+### 9.2.0
+- Changes
+    - Crashlytics: Fix requiring user code to reference Crashlytics when using il2cpp.
+    - Firestore: Added `TransactionOptions` to control how many times a
+      transaction will retry commits before failing
+      ([#318](https://github.com/firebase/firebase-unity-sdk/pull/318)).
+    - Database (Desktop): If the app data directory doesn't exist, create it.
+      This fixes an issue with disk persistence on Linux.
+    - Messaging (Android): Make sure all the resources are closed in
+      `RegistrationIntentService`.
+      ([#973](https://github.com/firebase/firebase-cpp-sdk/issues/973)).
+
+### 9.1.0
+- Changes
+    - General: Added a missing namespace to the Google.MiniJson.dll.
+    - General (iOS): Fix an issue with bitcode not being enabled correctly.
+    - Functions: Add a new method `GetHttpsCallableFromURL`, to create callables
+      with URLs other than cloudfunctions.net.
+    - Analytics (iOS): Added InitiateOnDeviceConversionMeasurementWithEmail function to facilitate the
+      [on-device conversion measurement](https://support.google.com/google-ads/answer/12119136) API.
+
+### 9.0.0
+- Changes
+    - General: Minimum supported editor version is now Unity 2018.
+    - General (Editor, macOS): Add support for Apple Silicon chips.
+    - General (iOS): Firebase Unity on iOS is now built using Xcode 13.3.1.
+    - General (iOS): Fixed crash when running on iPhoneOS 12 and older.
+    - Analytics: Removed deprecated event names and parameters.
+    - Crashlytics (Android): Fixed a bug with missing symbols when enabling
+      minification via proguard.
+    - Messaging (Android): Fixed a bug with duplicate symbols when also
+      using Functions.
+    - Realtime Database (Desktop): Fixed a bug handling server timestamps
+      on 32-bit CPUs.
+    - Storage (Desktop): Set Content-Type HTTP header when uploading with
+      custom metadata.
+
+### 8.10.1
+- Changes
+    - General (Android): Fix an issue when building with mainTemplate.gradle.
+
+### 8.10.0
+- Changes
+    - General (Editor, macOS): Fix an issue when finding "python" executable.
+    - General : Firebase Unity SDK starts to build using Unity 2019,
+      and releases from git repo.
+
+### 8.9.0
+- Changes
+    - General (Editor, macOS): Support non-default "python" executable names,
+      common in newer macOS versions.
+    - General (iOS): Fixed additional issues on iOS 15 caused by early
+      initialization of Firebase iOS SDK.
+    - Remote Config: Fixed default FetchAsync() timeout being too high.
+    - Storage (Desktop): Added retry logic to PutFileAsync, GetFileAsync, and
+      other operations.
+
+### 8.8.1
+- Changes
+    - General (iOS): Fixed additional issues on iOS 15 caused by early
+      initialization of Firebase iOS SDK.
+
+### 8.8.0
+- Changes
+    - General (iOS): Another possible fix for an intermittent crash on iOS 15
+      caused by constructing C++ objects during Objective-C's `+load` method.
+    - Storage: Added a method to access the url of a storage instance.
+    - Crashlytics (Android): Updated internal Crashpad version to commit
+      `281ba7`. With this change, disabling tagged pointers is no longer
+      required, so the following can be removed from your manifest's
+      application tag: `android:allowNativeHeapPointerTagging=false`.
+    - Crashlytics (Android): Improved runtime efficiency of the
+      [`SetCustomKey` functions](/docs/crashlytics/customize-crash-reports?platform=unity#add-keys),
+      significantly reducing the number objects created and disk writes when
+      keys are updated frequently.
+    - Remote Config: Fixed an issue where the TimeSpan field of FetchDataAsync
+      was being used incorrectly.
+
+### 8.7.0:
+- Changes
+    - General (iOS): Fixed an intermittent crash on iOS 15 caused by
+      constructing C++ objects during Objective-C's `+load` method.
+      ([#706](https://github.com/firebase/firebase-cpp-sdk/pull/706))
+      ([#783](https://github.com/firebase/firebase-cpp-sdk/pull/783))
+    - Crashlytics (Android): Fixed a bug that prevented some Crashlytics session
+      files from being removed after the session ended. All session-specific
+      files are now properly cleaned up.
+      ([#737](https://github.com/firebase/firebase-cpp-sdk/issues/737))
+
+### 8.6.2:
 -   Changes
+    - Messaging (Android): Clean up callbacks on termination, to possibly fix
+      ANR issues in CheckAndFixDependenciesAsync
+      ([#1160](https://github.com/firebase/quickstart-unity/issues/1160)).
+
+### 8.6.1:
+-   Changes
+    - Crashlytics (Android): Updated the pinned dependency to fix a missing
+      method error
+      ([#1177](https://github.com/firebase/quickstart-unity/issues/1177)).
+
+### 8.6.0:
+-   Changes
+    - General (Android): Minimum SDK version is now 19.
+    - General: Variant double type now supports 64-bit while saving to json.
+      ([#1133](https://github.com/firebase/quickstart-unity/issues/1133)).
+    - Firestore: Released to general availability for Android and iOS (desktop
+      support remains in beta).
+    - Firestore (iOS): Fixed intermittent crashes and empty results when
+      retrieving the contents of a document.
+      ([#1171](https://github.com/firebase/quickstart-unity/issues/1171)).
+    - Firestore (iOS): Fixed intermittent "start after" query filters failing
+      to have any effects on the queries.
+    - Firestore (iOS): Fixed intermittent cases where specifying
+      ServerTimestampBehavior.Previous would return empty values instead of the
+      previous values.
+    - Crashlytics: Improved crash reporting for Unity Android apps using the
+      IL2CPP scripting backend. To display symbolicated IL2CPP stack traces in
+      the Crashlytics console, Android customers will need to upload symbol
+      files for their builds. See the [Getting Started with Crashlytics Unity]
+      (https://firebase.google.com/docs/crashlytics/get-started?platform=unity)
+      Guide for more details.
+    - Messaging (Android): Fixed crash resulting in ANR on termination.
+      ([#1151](https://github.com/firebase/quickstart-unity/issues/1151)).
+
+### 8.5.0:
+-   Changes
+    - General (iOS): iOS SDKs are now built using Xcode 13.0.0.
+    - Firestore: Fixed an issue where the `Equals()` and `GetHashCode()` methods
+      of `DocumentSnapshot` would sometimes be inconsistent
+      ([#8647](https://github.com/firebase/firebase-ios-sdk/pull/8647)).
+
+### 8.4.0:
+-   Changes
+    - General: Added support for Android x86 64.
+    - Firestore: Improved the efficiency of progress callbacks in
+      `LoadBundleAsync()`.
+    - Firestore: Fixed crashes in Unity Editor on Linux caused by C++ exceptions
+      failing to be converted to C# exceptions.
+    - Firestore: Fixed intermittent hangs on Android when exceptions are thrown
+      by callbacks.
+    - Firestore: Fixed a crash on Android when `DocumentReference.Set()` was
+      invoked with an invalid `documentData` value (e.g. an int).
+    - Firestore: Fixed race conditions in the instance caching, terminate, and
+      disposal logic of `FirebaseFirestore`.
+
+### 8.3.0:
+-   Changes
+    - Firestore: Simplified the API for modifying the settings of a
+      `FirebaseFirestore` instance. This is a backwards-incompatible change and
+      requires updates to code that sets `FirebaseFirestore.Settings`.
+    - Firestore: Changed an argument to `Query.WhereNotIn()` from `List` to
+      `IEnumerable`, to be consistent with `Query.WhereIn()`.
+    - Messaging (Android): Fixes an issue with receiving tokens when
+      initializing the app.
+
+### 8.2.0:
+-   Changes
+    - Firestore: Removed `Equals` and `GetHashCode` methods from `Query`,
+      `QuerySnapshot`, and `DocumentSnapshot` classes. These methods were
+      unimplemented, and we plan to add proper support for them in a future
+      release.
+    - Crashlytics: Upload UnityFramework symbols in addition to the main app
+      dSYM file to improve symbolication
+      ([#673](https://github.com/firebase/quickstart-unity/issues/673)).
+    - Messaging: Fixed a duplicate class error when building an application
+      which also uses Firebase Functions.
+
+### 8.1.0:
+-   Changes
+    - Database: Fixed a crash around using DataSnapshots within Coroutines
+      ([#635](https://github.com/firebase/quickstart-unity/issues/635)).
+    - Firestore: Implemented `IDisposable` for `ListenerRegistration`
+      ([#746](https://github.com/firebase/quickstart-unity/issues/746)).
+    - Firestore: Added `null` and empty string argument checks to all
+      public methods, which now throw exceptions instead of crashing
+      ([#1053](https://github.com/firebase/quickstart-unity/issues/1053)).
+    - Firestore: Fixed Android crash due to missing QueryEventListener class
+      ([#1080](https://github.com/firebase/quickstart-unity/issues/1080)).
+    - Firestore: Added support for Firestore Bundles via
+      `FirebaseFirestore.LoadBundleAsync()` and
+      `FirebaseFirestore.GetNamedQueryAsync()`. Bundles contain pre-packaged
+      data produced with the Firestore Server SDKs and can be used to populate
+      Firestore's cache without reading documents from the backend.
+
+### 8.0.0:
+-   Breaking Changes
+    - Instance Id: Removed support for the previously-deprecated Instance ID
+      SDK.
+    - Remote Config: The previously-deprecated class
+      `FirebaseRemoteConfigDeprecated` and the property
+      `ConfigSettings.IsDeveloperMode` have been removed.
+-   Changes
+    - Firestore: Internal assertions will now trigger C# exceptions (possible
+      exception types are `ArgumentException`, `InvalidOperationException` and
+      `FirestoreException` with `ErrorCode` set to `Internal`). These exceptions
+      are not meant to be caught -- rather, they are to help with debugging and
+      to avoid crashing the Unity editor instance.
+      *Important*: on iOS, you would need to change two settings on the exported
+      XCode project for this feature to work properly. Open `Build Settings` and
+      make sure that `Enable C++ Exceptions` and `Enable C++ Runtime Types`
+      settings are set to `Yes` for _all_ of the following: the `Unity-iPhone`
+      scheme, the `UnityFramework` scheme (for Unity versions 2019.3 and above)
+      _and_ the `Unity-iPhone` project. If you're doing incremental iOS builds
+      (i.e., if you use `Append` instead of `Replace` when doing the build),
+      these settings will persist between rebuilds, so you would only have to do
+      this once per project.
+    - Firestore: Fix `RunTransactionAsync()` to roll back the transaction if
+      the task returned from the given callback faults
+      ([#1042](https://github.com/firebase/quickstart-unity/issues/1042)).
+
+### 7.2.0:
+-   Changes
+    - Database: Fixed a potential crash that can occur as a result of a race
+      condition when adding, removing and deleting `ValueListener`s or
+      `ChildListener`s rapidly.
+    - Database: Fixed a crash when setting large values on Windows and Mac
+      systems ([#517](https://github.com/firebase/quickstart-unity/issues/517)].
+    - FCM (Android): Fixed triggering of callback handlers for background
+      notifications. Using `enqueueWork` instead of `startService`.
+    - Crashlytics: Added new Unity-specific metadata to help diagnose tricky
+      crashes around specific hardware setups.
+
+
+### 7.1.0:
+-   Breaking Changes
+    - Remote Config: Changed `FirebaseRemoteConfig` to be an instanced class,
+      with new APIs to better manage fetching config data. The old static
+      methods are now deprecated, and can be accessed in the new class
+      `FirebaseRemoteConfigDeprecated`.
+    - Remote Config: `ConfigSettings.IsDeveloperMode` is now obsolete and does
+      nothing. `ConfigSettings.MinimumFetchInternalInMilliseconds` should be
+      adjusted instead.
+-   Changes
+    - General: Add GoogleServices-Info.plist to `Unity-iPhone` target in
+      Unity 2019.3+.
     - Firestore: Fixed partial updates in `UpdateAsync()` with
       `FieldValue.Delete`
       ([#882](https://github.com/firebase/quickstart-unity/issues/882)).
+    - Firestore: Fixed `DocumentSnapshot.ToDictionary()` on non-existent
+      documents when running on Android
+      ([#887](https://github.com/firebase/quickstart-unity/issues/887)).
+    - Firestore: Fixed crash setting FirebaseFirestore.LogLevel on Android
+      before any instances have been created
+      ([#888](https://github.com/firebase/quickstart-unity/issues/888)).
+    - Auth: Fixed a flaky crash when accessing the result from the task returned
+      by `FetchProvidersForEmailAsync`.
+    - Auth: You can now specify a language for emails and text messages sent
+      from your apps using UseAppLanguage() or setting the
+      FirebaseAuth.LanguageCode property.
+    - Messaging (Android): Using `enqueueWork` instead of `startService`.
+      Fixes bug where we lost messages with data payloads received when app
+      is in background.
+      ([#877](https://github.com/firebase/quickstart-unity/issues/877)
+    - Remote Config: Fixed numeric value conversion `ConfigValue.DoubleValue`
+      and `ConfigValue.LongValue` to be locale independent.
+    - Installations: Fixed pod version to 7.5.0.
+
+### 7.0.1:
+-   Changes
     - Remote Config (Android): Fixed the crash bug introduced in 7.0.0.
 
 ### 7.0.0:
@@ -1264,7 +1533,7 @@ Release Notes
     - Storage: Fixed a bug that prevented the construction of Metadata without
       a storage reference.
     - Editor (Android): Fixed referenced Android dependencies in maven
-      where the POM references a specific version e.g '[1.2.3]'.
+      where the POM references a specific version e.g. '[1.2.3]'.
     - Editor (iOS): Improved compatibility with Unity 5.6's Cocoapods support
       required to use the GoogleVR SDK.
     - Editor (Android): Fixed Android dependency resolution when the bundle ID
